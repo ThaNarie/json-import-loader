@@ -1,0 +1,10 @@
+{
+  "a": "a.json",
+  "b": "import!./b.json",
+  "c": [
+    "import!./nested/c.json",
+    "import!./nested/c.yaml"
+  ],
+  "d": "import!./d.js",
+  "e": "import!./e.js"
+}

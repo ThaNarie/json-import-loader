@@ -1,0 +1,23 @@
+language: node_js
+
+cache: yarn
+
+node_js:
+  - 'stable'
+  - '6'
+  - '8'
+
+sudo: false
+
+script:
+  - yarn test
+
+deploy:
+  - provider: npm
+    email: 'thanarie@gmail.com'
+    api_key:
+      secure: ''
+    on:
+      tags: true
+      node: '8'
+    skip_cleanup: true

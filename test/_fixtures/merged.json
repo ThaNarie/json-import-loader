@@ -1,0 +1,29 @@
+{
+  "a": "a.json",
+  "b": {
+    "b1": true,
+    "b2": "yes"
+  },
+  "c": [
+    {
+      "c1": true,
+      "c2": "json"
+    },
+    {
+      "c1": true,
+      "c2": "yaml",
+      "c3": {
+        "b1": true,
+        "b2": "yes"
+      }
+    }
+  ],
+  "d": {
+    "d1": true,
+    "d2": "js object"
+  },
+  "e": {
+    "e1": true,
+    "e2": "js function"
+  }
+}
