@@ -16,7 +16,7 @@ deploy:
   - provider: npm
     email: 'thanarie@gmail.com'
     api_key:
-      secure: ''
+      secure: 'r2PwGbvUJcqk1H2nKLmBhqLKSeGR2I3OupVUSht4swKOJn+aj6fcXBZ5MiXRaA3clS7UbK8ySzB4vaoF7W6sqG74hBU0L5jRTOukfwFtlbozQA9Aed+rcAV/g8jRz27TQof4T0LYa8AwTi1f3rZi9nVQf1slf4lLGGasFgOp3ScvG7oA+YOBBOngs5oAy1g3wJwzxbYasYShZw5oYTRfd8U0TmvAp9KlmMAGG6GQMKHc25Qaua9lA5anoAIa4o/5klRyubVUKDv/nZsHhpbTIHn8o9fzarw8uA5P1ME4wwbD1+bMu8yExEz2xXq1QumDBzP3IuKxw/dtcr7R02ydWzTmS4TB6U6nWrwr7m6cE3O6R+leS88he2vcvC0ga+3Jxkp7nxxWEw1DaBNAoc5haqY66LWpKZwBUeOyJ7VsqkGNwVEkZcbqRCrNHTCpHLMqLsxMB0hPnfroGjb5ZFfV8MZfXIdFz4+AJQtxDTfN3MGYVnrYbpqzJC55z+AYFvphXKdDw5c7Bfy1W97IywMkQoVZ5dAAIA5wVsz55XWJc6j7Fh8X2MQNgQ48uwi94E+WLgCNnX2SoB7/IW4Xopt3Ri+3vkQa4RLN6t2+ig0zthB0ngnxiXM8WRKunJ6kVlXxUdwVOyeTZox3eXrrQeTAKMT4nzJzIBrqALx+1RDvYV4='
     on:
       tags: true
       node: '8'
