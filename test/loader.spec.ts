@@ -21,5 +21,5 @@ describe('loader', () => {
     // console.log('actual', actual);
 
     expect(actual).to.deep.equal(expected);
-  });
+  }).timeout(10000);
 });
