@@ -4,7 +4,7 @@ Allows import files into a json file. Works for any kind of import, as long it's
 object by webpack.
 
 This module also contains a util function that works in plain node, in case you need to use the json
-or yaml file outside of webpack. Keep in mind that you use full and relative imports. 
+or yaml file outside of webpack. Keep in mind that you use full and relative imports.
 
 [![Travis](https://img.shields.io/travis/mediamonks/json-import-loader.svg?maxAge=2592000)](https://travis-ci.org/mediamonks/json-import-loader)
 [![npm](https://img.shields.io/npm/v/json-import-loader.svg?maxAge=2592000)](https://www.npmjs.com/package/json-import-loader)
@@ -15,7 +15,6 @@ or yaml file outside of webpack. Keep in mind that you use full and relative imp
 ```sh
 yarn add -D json-import-loader
 ```
-
 
 ## Usage
 
@@ -38,6 +37,7 @@ loader config.
 Please look at the `/test/_fixtures` folder for usage examples.
 
 ### Inline
+
 ```js
 const json = require('json-import-loader!json-loader!./file.json');
 ```
@@ -49,33 +49,29 @@ const json = require('./file.json');
 ```
 
 **webpack.config.js**
+
 ```js
 module.exports = {
   module: {
     loaders: [
       {
         test: /\.json$/,
-        type: "javascript/dynamic", // only for webpack 4+
-        use: [
-          { loader: "json-import-loader" },
-          { loader: "json-loader" }
-        ]
+        type: 'javascript/dynamic', // only for webpack 4+
+        use: [{ loader: 'json-import-loader' }, { loader: 'json-loader' }],
       },
-    ]
-  }
-}
+    ],
+  },
+};
 ```
 
 ### Example
 
 **foo.json**
+
 ```json
 {
   "foo": "import!foo/bar.json",
-  "foos": [
-    "import!foo/foo1.json",
-    "import!foo/foo2.json"
-  ]
+  "foos": ["import!foo/foo1.json", "import!foo/foo2.json"]
 }
 ```
 
@@ -92,27 +88,25 @@ module.exports = {
     rules: [
       {
         test: /\.json$/,
-        type: "javascript/dynamic", // only for webpack 4+
-        use: [
-          { loader: "json-partial-loader" },
-          { loader: "json-loader" }
-        ]
+        type: 'javascript/dynamic', // only for webpack 4+
+        use: [{ loader: 'json-partial-loader' }, { loader: 'json-loader' }],
       },
       {
         test: /\.yaml$/,
-        type: "javascript/dynamic", // only for webpack 4+
+        type: 'javascript/dynamic', // only for webpack 4+
         use: [
-          { loader: "json-partial-loader" },
-          { loader: "json-loader" },
-          { loader: "yaml-loader" }
-        ]
+          { loader: 'json-partial-loader' },
+          { loader: 'json-loader' },
+          { loader: 'yaml-loader' },
+        ],
       },
-    ]
-  }
-}
+    ],
+  },
+};
 ```
 
 **foo.yaml**
+
 ```yaml
 foo: import!foo/bar.yaml
 foos:
@@ -136,21 +130,29 @@ const { loadData } = require('json-import-loader');
 const jsonObj = loadData(path.resolve(__dirname, './data/foo.json'));
 
 // additional extensions can be supported by providing resolvers for extensions
-const yamlObj = loadData(
-  path.resolve(__dirname, './data/foo.yaml'),
-  {
-    resolvers: {
-      yaml: path => yaml.safeLoad(fs.readFileSync(path, 'utf8'))
-    },
+const yamlObj = loadData(path.resolve(__dirname, './data/foo.yaml'), {
+  resolvers: {
+    yaml: path => yaml.safeLoad(fs.readFileSync(path, 'utf8')),
   },
-);
+});
 ```
+
+#### import js
 
 If you import a JS file, it should either export an object or a function. When a function, it will
 be called, and the result will be used.
 
+#### resolver map
+
 The resolver map expects the extension as the key, and a function as the value. The resolve function
 will receive the path (from the import) as parameter, and should return a string or object.
+
+#### importing without extension
+
+When no file extension is given in the import directive (e.g. `"import!./foo"`), it will try to
+resolve the file on disk with all the available extensions, starting with `json` and `js`, followed
+up by the extensions passed in the resolve map. This is mainly to mimic webpack resolve logic, so
+the same json files can be used with both the Webpack loader and the Node API.
 
 ## Building
 
@@ -158,21 +160,25 @@ In order to build json-import-loader, ensure that you have [Git](http://git-scm.
 and [Node.js](http://nodejs.org/) installed.
 
 Clone a copy of the repo:
+
 ```sh
 git clone https://github.com/mediamonks/json-import-loader.git
 ```
 
 Change to the json-import-loader directory:
+
 ```sh
 cd json-import-loader
 ```
 
 Install dev dependencies:
+
 ```sh
 yarn
 ```
 
 Use one of the following main scripts:
+
 ```sh
 yarn build            # build this project
 yarn dev              # run compilers in watch mode, both for babel and typescript
@@ -185,24 +191,18 @@ yarn doc              # generate typedoc documentation
 When installing this module, it adds a pre-commit hook, that runs lint and prettier commands
 before committing, so you can be sure that everything checks out.
 
-
 ## Contribute
 
 View [CONTRIBUTING.md](./CONTRIBUTING.md)
-
 
 ## Changelog
 
 View [CHANGELOG.md](./CHANGELOG.md)
 
-
 ## Authors
 
 View [AUTHORS.md](./AUTHORS.md)
 
-
 ## LICENSE
 
 [MIT](./LICENSE) © ThaNarie
-
-

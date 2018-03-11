@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 
 export default function loadData(contentPath, options = {}) {
   return JSON.parse(getData(contentPath, options));
@@ -17,7 +18,16 @@ export function getData(
   );
 }
 export function load(contentPath, options) {
-  const extension = path.extname(contentPath).slice(1);
+  let extension = path.extname(contentPath).slice(1);
+
+  if (!extension) {
+    const resolvedPath = resolvePath(contentPath, options);
+    if (resolvedPath) {
+      // tslint:disable no-parameter-reassignment
+      contentPath = resolvedPath;
+      extension = path.extname(contentPath).slice(1);
+    }
+  }
 
   // use normal require
   if (['json', 'js'].includes(extension)) {
@@ -48,4 +58,10 @@ export function load(contentPath, options) {
   throw new Error(
     `Extension "${extension}" for path "${contentPath}" is not supported, please configure a resolve function by setting "options.resolvers.${extension}". It will receive a path and should return the content as a string.`,
   );
+}
+
+function resolvePath(contentPath, options) {
+  return ['json', 'js', ...((options.resolvers && Object.keys(options.resolvers)) || [])]
+    .map(extension => `${contentPath}.${extension}`)
+    .find(path => fs.existsSync(path));
 }
