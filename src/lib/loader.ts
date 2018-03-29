@@ -14,7 +14,7 @@ export default function(this: any, content: string) {
   const newContent = content.replace(
     /"import!(.*?)"/gi,
     (_, group) => `(
-  () => {
+  function() {
     var result = require(${loaderUtils.stringifyRequest(loaderContext, group)})
     if (typeof result === 'function') {
       result = result();
