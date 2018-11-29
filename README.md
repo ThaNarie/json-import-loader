@@ -36,6 +36,8 @@ loader config.
 
 Please look at the `/test/_fixtures` folder for usage examples.
 
+**Note:** When used on an empty file, it will return an empty object.
+
 ### Inline
 
 ```js

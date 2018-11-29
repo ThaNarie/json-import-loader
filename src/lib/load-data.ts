@@ -1,36 +1,30 @@
-import path from 'path';
+import sysPath from 'path';
 import fs from 'fs';
 
-export default function loadData(contentPath, options = {}) {
-  return JSON.parse(getData(contentPath, options));
+function resolvePath(contentPath, options) {
+  return ['json', 'js', ...((options.resolvers && Object.keys(options.resolvers)) || [])]
+    .map(extension => `${contentPath}.${extension}`)
+    .find(path => fs.existsSync(path));
 }
 
-export function getData(
-  contentPath: string,
-  options?: {
-    resolvers?: { [key: string]: (path: string) => string | object };
-  },
-) {
-  // find all import occurrences and replace with the actual content
-  return load(contentPath, options).replace(/"import!(.*?)"/gi, (_, group) =>
-    // recursion is supported
-    getData(path.resolve(__dirname, path.dirname(contentPath), group), options),
-  );
-}
 export function load(contentPath, options) {
-  let extension = path.extname(contentPath).slice(1);
+  let extension = sysPath.extname(contentPath).slice(1);
 
   if (!extension) {
     const resolvedPath = resolvePath(contentPath, options);
     if (resolvedPath) {
       // tslint:disable no-parameter-reassignment
       contentPath = resolvedPath;
-      extension = path.extname(contentPath).slice(1);
+      extension = sysPath.extname(contentPath).slice(1);
     }
   }
 
+  if (extension === 'json') {
+    return fs.readFileSync(contentPath, 'utf8');
+  }
+
   // use normal require
-  if (['json', 'js'].includes(extension)) {
+  if (extension === 'js') {
     let result = require(contentPath);
 
     // if js export was a function, execute it and use the result
@@ -52,7 +46,7 @@ export function load(contentPath, options) {
       return result;
     }
     // convert object to json string
-    return JSON.stringify(result);
+    return JSON.stringify(result) || '';
   }
 
   throw new Error(
@@ -60,8 +54,20 @@ export function load(contentPath, options) {
   );
 }
 
-function resolvePath(contentPath, options) {
-  return ['json', 'js', ...((options.resolvers && Object.keys(options.resolvers)) || [])]
-    .map(extension => `${contentPath}.${extension}`)
-    .find(path => fs.existsSync(path));
+export function getData(
+  contentPath: string,
+  options?: {
+    resolvers?: { [key: string]: (path: string) => string | object };
+  },
+) {
+  // find all import occurrences and replace with the actual content
+  return load(contentPath, options).replace(/"import!(.*?)"/gi, (_, group) =>
+    // recursion is supported
+    getData(sysPath.resolve(__dirname, sysPath.dirname(contentPath), group), options),
+  );
+}
+
+export default function loadData(contentPath, options = {}) {
+  const data = getData(contentPath, options);
+  return data ? JSON.parse(data) : {};
 }
