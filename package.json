@@ -1,6 +1,6 @@
 {
   "name": "json-import-loader",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Allows import files into a json file, contains webpack-loader and node API.",
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -74,6 +74,7 @@
     "@types/mocha": "^2.2.44",
     "@types/sinon": "^4.1.2",
     "@types/sinon-chai": "^2.7.29",
+    "@types/webpack": "^4.4.21",
     "babel-eslint": "^8.0.3",
     "babel-plugin-istanbul": "^4.1.5",
     "chai": "^4.1.2",

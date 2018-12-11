@@ -24,6 +24,10 @@
   },
   "e": {
     "e1": true,
-    "e2": "js function"
+    "e2": "js function",
+    "f": {
+      "f1": true,
+      "f2": "yes"
+    }
   }
 }

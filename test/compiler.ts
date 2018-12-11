@@ -23,6 +23,12 @@ export default (fixture):Promise<any> => {
     module: {
       rules: [
         {
+          test: /\.js$/,
+          use: [
+            { loader: path.resolve(__dirname, '../src/lib/loader.ts'), }
+          ]
+        },
+        {
           test: /\.json$/,
           type: "javascript/dynamic",
           use: [

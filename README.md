@@ -4,7 +4,7 @@ Allows import files into a json file. Works for any kind of import, as long it's
 object by webpack.
 
 This module also contains a util function that works in plain node, in case you need to use the json
-or yaml file outside of webpack. Keep in mind that you use full and relative imports.
+or yaml file outside of webpack. Keep in mind that you can use full and relative imports.
 
 [![Travis](https://img.shields.io/travis/mediamonks/json-import-loader.svg?maxAge=2592000)](https://travis-ci.org/mediamonks/json-import-loader)
 [![npm](https://img.shields.io/npm/v/json-import-loader.svg?maxAge=2592000)](https://www.npmjs.com/package/json-import-loader)
@@ -35,6 +35,10 @@ jason. So if you're using webpack 4 or higher, please add `type: "javascript/dyn
 loader config.
 
 Please look at the `/test/_fixtures` folder for usage examples.
+
+**Note:** When importing JS files, if you want to support the `import!` syntax there as well, you
+have to use this loader for those JS files as well. Do this in the webpack config, and make sure
+to only include specific paths, so it won't be active for all JS files.
 
 **Note:** When used on an empty file, it will return an empty object.
 
@@ -89,15 +93,22 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.js$/,
+        // include: /regexp-pattern-for-just-data-files/,
+        use: [
+          { loader: 'json-import-loader' }
+        ]
+      },
+      {
         test: /\.json$/,
         type: 'javascript/dynamic', // only for webpack 4+
-        use: [{ loader: 'json-partial-loader' }, { loader: 'json-loader' }],
+        use: [{ loader: 'json-import-loader' }, { loader: 'json-loader' }],
       },
       {
         test: /\.yaml$/,
         type: 'javascript/dynamic', // only for webpack 4+
         use: [
-          { loader: 'json-partial-loader' },
+          { loader: 'json-import-loader' },
           { loader: 'json-loader' },
           { loader: 'yaml-loader' },
         ],
