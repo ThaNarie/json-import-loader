@@ -1,6 +1,11 @@
 import sysPath from 'path';
 import fs from 'fs';
 
+type DataOptions = {
+  resolvers?: { [key: string]: (path: string) => string | object };
+  processPath?: (path: string) => string;
+};
+
 function resolvePath(contentPath, options) {
   return ['json', 'js', ...((options.resolvers && Object.keys(options.resolvers)) || [])]
     .map(extension => `${contentPath}.${extension}`)
@@ -54,14 +59,14 @@ export function load(contentPath, options) {
   );
 }
 
-export function getData(
-  contentPath: string,
-  options?: {
-    resolvers?: { [key: string]: (path: string) => string | object };
-  },
-) {
+export function getData(contentPath: string, options?: DataOptions) {
   // find all import occurrences and replace with the actual content
-  return load(contentPath, options).replace(/"import!(.*?)"/gi, (_, group) =>
+  return load(
+    options.processPath && typeof options.processPath === 'function'
+      ? options.processPath(contentPath)
+      : contentPath,
+    options,
+  ).replace(/"import!(.*?)"/gi, (_, group) =>
     // recursion is supported
     getData(sysPath.resolve(__dirname, sysPath.dirname(contentPath), group), options),
   );

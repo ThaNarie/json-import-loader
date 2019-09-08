@@ -2,7 +2,7 @@ import path from 'path';
 import webpack from 'webpack';
 // import memoryfs from 'memory-fs';
 
-export default (fixture):Promise<any> => {
+export default (fs, fixture, loaderOptions = {}):Promise<any> => {
   const compiler = webpack({
     context: __dirname,
     entry: `./${fixture}`,
@@ -32,7 +32,7 @@ export default (fixture):Promise<any> => {
           test: /\.json$/,
           type: "javascript/dynamic",
           use: [
-            { loader: path.resolve(__dirname, '../src/lib/loader.ts'), },
+            { loader: path.resolve(__dirname, '../src/lib/loader.ts'), options: loaderOptions},
             { loader: "json-loader" }
           ]
         },
@@ -41,7 +41,7 @@ export default (fixture):Promise<any> => {
           type: "javascript/dynamic",
           // type: "json",
           use: [
-            { loader: path.resolve(__dirname, '../src/lib/loader.ts'), },
+            { loader: path.resolve(__dirname, '../src/lib/loader.ts'), options: loaderOptions},
             { loader: "json-loader" },
             { loader: "yaml-loader" }
           ]
@@ -50,7 +50,7 @@ export default (fixture):Promise<any> => {
     }
   });
 
-  // compiler.outputFileSystem = new memoryfs();
+  compiler.outputFileSystem = fs;
 
   return new Promise((resolve, reject) => {
     compiler.run((err, stats) => {

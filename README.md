@@ -63,7 +63,15 @@ module.exports = {
       {
         test: /\.json$/,
         type: 'javascript/dynamic', // only for webpack 4+
-        use: [{ loader: 'json-import-loader' }, { loader: 'json-loader' }],
+        use: [
+          {
+            loader: 'json-import-loader',
+            options: {
+              processPath: path => path,
+            }
+          },
+          { loader: 'json-loader' }
+        ],
       },
     ],
   },
@@ -96,7 +104,12 @@ module.exports = {
         test: /\.js$/,
         // include: /regexp-pattern-for-just-data-files/,
         use: [
-          { loader: 'json-import-loader' }
+          {
+            loader: 'json-import-loader',
+            options: {
+              processPath: path => path,
+            }
+          }
         ]
       },
       {
@@ -147,6 +160,8 @@ const yamlObj = loadData(path.resolve(__dirname, './data/foo.yaml'), {
   resolvers: {
     yaml: path => yaml.safeLoad(fs.readFileSync(path, 'utf8')),
   },
+  // the path can be changed in this hook, in case you want to use variables in there
+  processPath: path => path,
 });
 ```
 
