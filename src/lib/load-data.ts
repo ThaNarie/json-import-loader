@@ -1,7 +1,7 @@
 import sysPath from 'path';
 import fs from 'fs';
 
-type DataOptions = {
+export type DataOptions = {
   resolvers?: { [key: string]: (path: string) => string | object };
   processPath?: (path: string) => string;
 };
