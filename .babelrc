@@ -6,18 +6,10 @@
         "node": "6"
       },
       "loose": true,
-      "useBuiltIns": "usage"
+      "useBuiltIns": false
     }],
     "@babel/preset-stage-3",
     "@babel/typescript"
-  ],
-  "plugins": [
-    ["@babel/plugin-transform-runtime", {
-      "helpers": true,
-      "polyfill": false,
-      "regenerator": false,
-      "moduleName": "@babel/runtime"
-    }]
   ],
   "env": {
     "test": {
