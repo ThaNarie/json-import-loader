@@ -1,7 +1,7 @@
-import { expect } from 'chai';
 import fs from 'fs';
-import sysPath from 'path';
 import yaml from 'js-yaml';
+import sysPath from 'path';
+
 import loadData from '../src/lib/load-data';
 
 describe('load-data', () => {
@@ -16,16 +16,16 @@ describe('load-data', () => {
         yaml: path => yaml.safeLoad(fs.readFileSync(path, 'utf8')),
       },
     });
-    expect(actual).to.deep.equal(expected);
+    expect(actual).toEqual(expected);
   });
   it('should throw an error on unknown extensions', () => {
     const actual = () => loadData(sysPath.resolve(__dirname, './_fixtures/a.json'));
-    expect(actual).to.throw('Extension "yaml" for path');
+    expect(actual).toThrow('Extension "yaml" for path');
   });
 
   it('should not fail on empty json file', () => {
     const actual = loadData(sysPath.resolve(__dirname, './_fixtures/empty.json'));
-    expect(actual).to.deep.equal({});
+    expect(actual).toEqual({});
   });
   it('should not fail on empty yaml file', () => {
     const actual = loadData(sysPath.resolve(__dirname, './_fixtures/empty.yaml'), {
@@ -33,7 +33,7 @@ describe('load-data', () => {
         yaml: path => yaml.safeLoad(fs.readFileSync(path, 'utf8')),
       },
     });
-    expect(actual).to.deep.equal({});
+    expect(actual).toEqual({});
   });
 
   describe('when no extension is passed', () => {
@@ -46,7 +46,7 @@ describe('load-data', () => {
           value: 'json',
         },
       };
-      expect(actual).to.deep.equal(expected);
+      expect(actual).toEqual(expected);
     });
     it('should try to load existing js file', () => {
       const actual = loadData(sysPath.resolve(__dirname, './_fixtures/no-extension/js/test.json'));
@@ -55,7 +55,7 @@ describe('load-data', () => {
           value: 'js',
         },
       };
-      expect(actual).to.deep.equal(expected);
+      expect(actual).toEqual(expected);
     });
     it('should try to load existing yaml file when provided', () => {
       const actual = loadData(
@@ -71,7 +71,7 @@ describe('load-data', () => {
           value: 'yaml',
         },
       };
-      expect(actual).to.deep.equal(expected);
+      expect(actual).toEqual(expected);
     });
   });
 
@@ -99,7 +99,7 @@ describe('load-data', () => {
           .readFileSync(sysPath.resolve(__dirname, './_fixtures/merged.json'), 'utf-8')
           .replace(/\\n/gi, '\n'),
       );
-      expect(actual).to.deep.equal(expected);
+      expect(actual).toEqual(expected);
     });
   });
 });

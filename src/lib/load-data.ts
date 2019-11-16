@@ -1,5 +1,5 @@
-import sysPath from 'path';
 import fs from 'fs';
+import sysPath from 'path';
 
 export type DataOptions = {
   resolvers?: { [key: string]: (path: string) => string | object };
@@ -38,6 +38,13 @@ export function load(contentPath, options) {
     }
 
     if (typeof result === 'string') {
+      try {
+        // if not parsable, it's a normal string, so stringify it to add quotes around it
+        JSON.parse(result);
+      } catch (e) {
+        return JSON.stringify(result);
+      }
+
       return result;
     }
     // convert object to json string
@@ -48,6 +55,15 @@ export function load(contentPath, options) {
   if (options.resolvers && options.resolvers[extension]) {
     const result = options.resolvers[extension](contentPath);
     if (typeof result === 'string') {
+      try {
+        // if not parsable, it's a normal string, so stringify it to add quotes around it
+        JSON.parse(result);
+      } catch (e) {
+        return JSON.stringify(result);
+      }
+
+      // this line is only here for safety in case your non json/js file returns a json string
+      /* istanbul ignore next */
       return result;
     }
     // convert object to json string

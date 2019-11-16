@@ -1,10 +1,10 @@
 {
   "a": "a.json",
   "b": "import!./b.json",
-  "c": [
-    "import!./nested/${varC}.json",
-    "import!./nested/${varC}.yaml"
-  ],
+  "c": ["import!./nested/${varC}.json", "import!./nested/${varC}.yaml"],
   "d": "import!./d.js",
-  "e": "import!./e.js"
+  "e": "import!./e.js",
+  "js-string": "import!./js-string.js",
+  "json-string": "import!./json-string.js",
+  "yaml-string": "import!./yaml-string.yaml"
 }

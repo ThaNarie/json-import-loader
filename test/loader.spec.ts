@@ -1,12 +1,13 @@
-import { expect } from 'chai';
-import fs from "fs";
-import path from "path";
+import fs from 'fs';
 import Memoryfs from 'memory-fs';
+import path from 'path';
 import requireFromString from 'require-from-string';
+
 import compiler from './compiler';
 
 function getOutput(stats) {
   if (stats.toJson().errors.length) {
+    // tslint:disable-next-line:no-console
     console.error(stats.toJson().errors);
   }
 
@@ -16,7 +17,11 @@ function getOutput(stats) {
 describe('loader', () => {
   it('should load and merge everything', async () => {
     const outputFs = new Memoryfs();
-    const expected = JSON.parse(fs.readFileSync(path.resolve(__dirname, './_fixtures/merged.json'), 'utf-8').replace(/\\n/gi, '\n'));
+    const expected = JSON.parse(
+      fs
+        .readFileSync(path.resolve(__dirname, './_fixtures/merged.json'), 'utf-8')
+        .replace(/\\n/gi, '\n'),
+    );
     const stats = await compiler(outputFs, '_fixtures/a.json');
     getOutput(stats);
 
@@ -27,8 +32,9 @@ describe('loader', () => {
 
     // console.log('actual', actual);
 
-    expect(actual).to.deep.equal(expected);
-  }).timeout(10000);
+    expect(actual).toEqual(expected);
+  }, 10000);
+
   it('should load and merge everything with variables', async () => {
     const replaceVariables = {
       varC: 'c',
@@ -36,7 +42,11 @@ describe('loader', () => {
     };
 
     const outputFs = new Memoryfs();
-    const expected = JSON.parse(fs.readFileSync(path.resolve(__dirname, './_fixtures/merged.json'), 'utf-8').replace(/\\n/gi, '\n'));
+    const expected = JSON.parse(
+      fs
+        .readFileSync(path.resolve(__dirname, './_fixtures/merged.json'), 'utf-8')
+        .replace(/\\n/gi, '\n'),
+    );
     const stats = await compiler(outputFs, '_fixtures/variable.json', {
       processPath: path =>
         Object.keys(replaceVariables).reduce(
@@ -55,6 +65,6 @@ describe('loader', () => {
 
     // console.log('actual', actual);
 
-    expect(actual).to.deep.equal(expected);
-  }).timeout(10000);
+    expect(actual).toEqual(expected);
+  }, 10000);
 });

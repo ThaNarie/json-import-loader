@@ -16,14 +16,23 @@ export default function(this: webpack.loader.LoaderContext, content: string) {
 
   const newContent = content.replace(/(["'])import!(.*?)\1/gi, (_, __, group) => {
     let path = loaderUtils.stringifyRequest(loaderContext, group);
-    if (options.processPath && typeof options.processPath === 'function')
+    if (options.processPath && typeof options.processPath === 'function') {
       path = options.processPath(path);
+    }
     return `(
   function() {
     var result = require(${path})
     if (typeof result === 'function') {
       result = result();
     }
+    
+    if (typeof result === 'string') {
+      try {
+        // if a json string, return parsed result
+        return JSON.parse(result);
+      } catch (e) {}
+    }
+    
     return result;
   }
 )()`;

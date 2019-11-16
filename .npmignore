@@ -9,7 +9,7 @@ node_modules/
 .eslintcache
 /coverage/
 /.nyc_output/
-/tmp/
+/decl/
 
 # .npmignore
 .babelrc

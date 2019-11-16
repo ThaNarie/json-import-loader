@@ -1,3 +1,4 @@
 # for potential vendor files in src
 lib/**/*
 src/lib/vendor/**/*
+/decl/**/*

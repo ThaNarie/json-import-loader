@@ -1,1 +1,1 @@
-* [Arjan van Wijk](https://github.com/ThaNarie)
+- [Arjan van Wijk](https://github.com/ThaNarie)
