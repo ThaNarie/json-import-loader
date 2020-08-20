@@ -17,5 +17,5 @@ deploy:
     api_key: $NPM_AUTH_TOKEN
     on:
       tags: true
-      node: 'stable'
+      node: '12'
     skip_cleanup: true
